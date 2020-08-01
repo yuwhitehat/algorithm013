@@ -1,0 +1,20 @@
+class RotateArray{
+    //先将数组全部倒置，然后将0到k-1的元素倒置，将k到最后的元素倒置
+    //时间复杂度：O(n)
+    public void rotate(int[] nums, int k) {
+        k = k % nums.length;
+        reverse(nums,0,nums.length-1);
+        reverse(nums,0,k-1);
+        reverse(nums,k,nums.length-1);
+
+    }
+    private void reverse(int[] nums,int start,int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
