@@ -49,3 +49,9 @@ public class TreeNode {
     3. 删除 log(n) 
 3. 特殊情况
 当树只剩下左子树或右子树的时候，树其实就变成了链表，复杂度就变成了链表的复杂度
+## 堆
+
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/564594/1597025246737-833b4670-df38-4dad-bc54-32977f06cefd.png)<a name="ECRup"></a>
