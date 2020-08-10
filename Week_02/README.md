@@ -49,9 +49,64 @@ public class TreeNode {
     3. 删除 log(n) 
 3. 特殊情况
 当树只剩下左子树或右子树的时候，树其实就变成了链表，复杂度就变成了链表的复杂度
-## 堆
 
+## 二叉堆
+<a name="VSxpP"></a>
+### 实现
+二叉堆通过数组实现，假设第一个元素在数组中的索引为零的话：
 
+1. 索引为 `i` 的左孩子的索引是 `（2*i+1）` 
+1. 索引为 `i` 的右孩子的索引是 `（2*i+2）` 
+1. 索引为 `i` 的父节点的索引是 `floor((i-1)/2)` 
 
+将从根节点开始依次从左到右放入每一个节点的值：<br />可以看到满足堆的性质，是一颗完全树（除叶子节点外其他节点都是满的），而且根节点一定大于儿子节点<br />![image.png](https://cdn.nlark.com/yuque/0/2020/png/564594/1597026275658-9b429d4e-4062-4227-85cb-e50fb82c1a41.png#align=left&display=inline&height=282&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=836&size=103723&status=done&style=none&width=418)
+<a name="r9sju"></a>
 
-![](https://cdn.nlark.com/yuque/0/2020/png/564594/1597025246737-833b4670-df38-4dad-bc54-32977f06cefd.png)<a name="ECRup"></a>
+### `Insert` 的实现细节
+
+1. 新元素一律先插到堆的尾部
+1. 依次向上调整整个堆的结构（一直到根即可）
+
+如果要把85插到二叉堆中：<br />![image.png](https://cdn.nlark.com/yuque/0/2020/png/564594/1597026815300-0f39313e-c10d-4c17-af04-5a0d788ac2e0.png#align=left&display=inline&height=390&margin=%5Bobject%20Object%5D&name=image.png&originHeight=529&originWidth=708&size=106282&status=done&style=none&width=522)<br />![image.png](https://cdn.nlark.com/yuque/0/2020/png/564594/1597026889013-de359e41-aebd-4e94-bcf7-79dfb579b582.png#align=left&display=inline&height=236&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=767&size=64784&status=done&style=none&width=515)<br />
+<br />![image.png](https://cdn.nlark.com/yuque/0/2020/png/564594/1597027012651-a29aa0b2-012e-4efb-8dcb-feb457672429.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=401&originWidth=702&size=74417&status=done&style=none&width=514)
+<a name="7488R"></a>
+#### 核心代码
+```java
+    /**
+     * Maintains the heap property while inserting an element.
+     */
+    private void heapifyUp(int i) {
+        int insertValue = heap[i];
+        while (i > 0 && insertValue > heap[parent(i)]) {
+            heap[i] = heap[parent(i)];
+            i = parent(i);
+        }
+        heap[i] = insertValue;
+    }
+```
+### `Delete Max` 的实现细节
+
+1. 将堆尾元素替换到顶部
+1. 依次从根部向下调整整个堆的结构(一直到堆尾即可)
+
+![image.png](https://cdn.nlark.com/yuque/0/2020/png/564594/1597027227321-933dd854-76b0-4aa7-b7de-3dcafdea8d5d.png#align=left&display=inline&height=377&margin=%5Bobject%20Object%5D&name=image.png&originHeight=841&originWidth=1666&size=309819&status=done&style=none&width=746)
+<a name="C4rq5"></a>
+#### 核心代码
+```java
+    /**
+     * Maintains the heap property while deleting an element.
+     */
+    private void heapifyDown(int i) {
+        int child;
+        int temp = heap[i];
+        while (kthChild(i, 1) < heapSize) {
+            child = maxChild(i);
+            if (temp >= heap[child]) {
+                break;
+            }
+            heap[i] = heap[child];
+            i = child;
+        }
+        heap[i] = temp;
+    }
+```
